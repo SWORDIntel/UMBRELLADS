@@ -8,6 +8,7 @@ REPO_NAME="UMBRELLA-ADS"
 GITHUB_USER="John"
 USER_EMAIL="intel@swordintelligence.airforce"
 REMOTE_PROTO="https"
+REMOTE_URL=""
 
 usage() {
     cat <<USAGE
@@ -19,6 +20,7 @@ Options:
   --user <name>     GitHub username (default: John)
   --email <email>   Commit author email (default: intel@swordintelligence.airforce)
   --https           Use HTTPS remote instead of SSH
+  --remote <url>    Explicit remote URL (overrides protocol + user defaults)
   -h, --help        Show this message
 
 Example:
@@ -48,6 +50,10 @@ while [[ $# -gt 0 ]]; do
             REMOTE_PROTO="https"
             shift
             ;;
+        --remote)
+            REMOTE_URL="$2"
+            shift 2
+            ;;
         -h|--help)
             usage
             exit 0
@@ -60,10 +66,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ "$REMOTE_PROTO" == "https" ]]; then
-    REMOTE_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
-else
-    REMOTE_URL="git@github.com:${GITHUB_USER}/${REPO_NAME}.git"
+if [[ -z "$REMOTE_URL" ]]; then
+    if [[ "$REMOTE_PROTO" == "https" ]]; then
+        REMOTE_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
+    else
+        REMOTE_URL="git@github.com:${GITHUB_USER}/${REPO_NAME}.git"
+    fi
 fi
 
 echo "Working directory : $ROOT_DIR"
@@ -80,41 +88,6 @@ fi
 
 git config user.name "$GITHUB_USER"
 git config user.email "$USER_EMAIL"
-
-gh_available=false
-gh_authed=false
-
-if command -v gh >/dev/null 2>&1; then
-    gh_available=true
-    if gh auth status >/dev/null 2>&1; then
-        gh_authed=true
-    fi
-fi
-
-if $gh_available && $gh_authed; then
-    if ! gh repo view "${GITHUB_USER}/${REPO_NAME}" >/dev/null 2>&1; then
-        echo "Creating private repo ${GITHUB_USER}/${REPO_NAME} via gh..."
-        if gh repo create "${GITHUB_USER}/${REPO_NAME}" --private --description "Umbrella ads archive" >/dev/null 2>&1; then
-            echo "Repository created."
-        else
-            cat <<WARN
-Unable to create ${GITHUB_USER}/${REPO_NAME} via gh. Ensure you are authenticated
-as ${GITHUB_USER} or pre-create the repository manually.
-WARN
-        fi
-    else
-        echo "Repo ${GITHUB_USER}/${REPO_NAME} already exists on GitHub."
-    fi
-else
-    if ! $gh_available; then
-        echo "GitHub CLI (gh) not installed; skipping remote creation."
-    elif ! $gh_authed; then
-        cat <<WARN
-GitHub CLI not authenticated. Run 'gh auth login' or set GH_TOKEN,
-or ensure the remote repository ${GITHUB_USER}/${REPO_NAME} exists before continuing.
-WARN
-    fi
-fi
 
 if git rev-parse --verify main >/dev/null 2>&1; then
     git checkout main >/dev/null 2>&1 || true
@@ -134,4 +107,13 @@ else
 fi
 
 git branch -M main
-git push -u origin main
+echo "Pushing to $REMOTE_URL ..."
+if ! git push -u origin main; then
+    cat <<WARN
+
+Push failed. Confirm that the remote repository exists and your credentials allow
+push access. You may need to create the repo ${GITHUB_USER}/${REPO_NAME} on GitHub
+and provide a PAT/HTTPS login or configure SSH keys.
+WARN
+    exit 1
+fi

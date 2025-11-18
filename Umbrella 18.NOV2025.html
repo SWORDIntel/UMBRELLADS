@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umbrella Corporation By:NND</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ff0000;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s;
+            animation: pulseCursor 2s infinite;
+        }
+        
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.3s;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes pulseCursor {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+        }
+        
+        /* Matrix Rain Background */
+        #matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        /* Scanlines */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(255, 255, 255, 0.03) 50%,
+                transparent 33%
+            );
+            background-size: 100% 3px;
+            z-index: 2;
+            pointer-events: none;
+            animation: scanline 4s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a0000 0%, #ff0000 50%, #1a0000 100%);
+            padding: 7px;
+            text-align: center;
+            border-bottom: 2px solid #ff0000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .logo-container {
+            display: inline-block;
+            position: relative;
+            animation: rotate3D 3s infinite linear;
+        }
+        
+        @keyframes rotate3D {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        .umbrella-logo {
+            width: 69px;
+            height: 69px;
+            margin: 0 auto 36px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .umbrella-segments {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: bottom right;
+        }
+        
+        .segment:nth-child(odd) { background: #ff0000; }
+        .segment:nth-child(even) { background: #ffffff; }
+        
+        .segment:nth-child(1) { transform: rotate(0deg) skewX(45deg); }
+        .segment:nth-child(2) { transform: rotate(45deg) skewX(45deg); }
+        .segment:nth-child(3) { transform: rotate(90deg) skewX(45deg); }
+        .segment:nth-child(4) { transform: rotate(135deg) skewX(45deg); }
+        .segment:nth-child(5) { transform: rotate(180deg) skewX(45deg); }
+        .segment:nth-child(6) { transform: rotate(225deg) skewX(45deg); }
+        .segment:nth-child(7) { transform: rotate(270deg) skewX(45deg); }
+        .segment:nth-child(8) { transform: rotate(315deg) skewX(45deg); }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #fff;
+            text-shadow: 0 0 7px rgba(255,0,0,0.8), 0 0 36px rgba(255,0,0,0.5);
+            animation: glitch 2s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,0,0,0.8); }
+            25% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+            50% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+            75% { text-shadow: 0 0 20px rgba(255,0,0,0.8); }
+        }
+        
+        .tagline {
+            font-size: 1.1em;
+            color: #b3b3b3;
+            margin: 6px 0;
+            animation: typewriter 3s steps(88) 1s 1 normal both;
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            background: #1a1a1a;
+            padding: 0;
+            display: flex;
+            border-bottom: 1px solid #ff0000;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .tab-btn {
+            background: linear-gradient(180deg, #2a2a2a, #1a1a1a);
+            color: #fff;
+            border: none;
+            padding: 9px 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s;
+            border-right: 1px solid #ff0000;
+            overflow: hidden;
+            letter-spacing: 0.08em;
+        }
+        
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,0,0,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .tab-btn:hover::before {
+            left: 100%;
+        }
+        
+        .tab-btn:hover {
+            background: linear-gradient(180deg, #ff0000, #8b0000);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255,0,0,0.5);
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(180deg, #ff0000, #660000);
+            color: #fff;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.5);
+        }
+        
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            padding: 8px;
+            background: rgba(26, 26, 26, 0.9);
+            min-height: 50px;
+            animation: fadeInUp 0.5s;
+            border: 1px solid #ff0000;
+            margin: 75px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab-content::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 25%;
+            height: 25%;
+            background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Content Styling */
+        .section {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 2px solid #ff0000;
+            position: relative;
+            z-index: 1;
+        }
+        .section p {
+            margin: 10px 0;
+        }
+        .section ul {
+            margin: 10px 0 0 20px;
+        }
+        
+        .section h2 {
+            color: #ff0000;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .warning-box {
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid #ff0000;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0;
+            position: relative;
+            animation: warningPulse 3s infinite;
+        }
+        .warning-box p {
+            margin: 8px 0;
+        }
+        .warning-box h3,
+        .warning-box h4 {
+            margin: 18px 0 10px;
+        }
+        .warning-box ul {
+            margin: 8px 0 0 20px;
+        }
+        .warning-box ul li {
+            margin: 6px 0;
+        }
+        .vision-box {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .vision-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .vision-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+        .vision-item {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .vision-item h5 {
+            margin: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: #ff4d4d;
+            letter-spacing: 1px;
+        }
+        .vision-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .vision-checklist li {
+            position: relative;
+            padding-left: 26px;
+        }
+        .vision-checklist li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ff4d4d;
+            box-shadow: 0 0 6px rgba(255, 0, 0, 0.6);
+        }
+        .vision-checklist span {
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            font-size: 1.05em;
+        }
+        .vision-checklist small {
+            display: block;
+            color: #c8c8c8;
+            letter-spacing: 0.02em;
+            font-size: 0.95em;
+        }
+        
+        @keyframes warningPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,0,0,0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(255,0,0,0.4); }
+        }
+        
+        .price-card {
+            background: linear-gradient(135deg, rgba(255,0,0,0.1), rgba(0,0,0,0.5));
+            border: 2px solid #ff0000;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .price-card:hover {
+            transform: translateX(10px);
+            box-shadow: -10px 10px 20px rgba(255,0,0,0.3);
+            background: linear-gradient(135deg, rgba(255,0,0,0.2), rgba(0,0,0,0.7));
+        }
+        
+        .price-tag {
+            font-size: 1.5em;
+            color: #00ff00;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0,255,0,0.5);
+        }
+        
+        /* Terminal Effect */
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            font-family: 'Share Tech Mono', monospace;
+            color: #00ff00;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .terminal p {
+            margin: 8px 0;
+        }
+        
+        .terminal::before {
+            content: '> ';
+            color: #00ff00;
+        }
+        
+        .terminal-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 20px;
+            background: #00ff00;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(255,0,0,0.9);
+            border: 2px solid #fff;
+            padding: 5px;
+            z-index: 1000;
+            animation: audioFloat 3s infinite ease-in-out;
+        }
+        
+        @keyframes audioFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .audio-btn {
+            background: #000;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 5px 10px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+        
+        .audio-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        /* Glitch Text Effect */
+        .glitch-text {
+            position: relative;
+            color: #fff;
+            font-size: 1.2em;
+            animation: glitchText 3s infinite;
+        }
+        
+        @keyframes glitchText {
+            0%, 100% { text-shadow: 0 0 2px rgba(255,0,0,0.8); }
+            25% { text-shadow: -2px 0 #00ffff, 2px 0 #ff00ff; }
+            50% { text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff; }
+            75% { text-shadow: 0 0 2px rgba(255,0,0,0.8); }
+        }
+        
+        /* Special Offer Badge */
+        .special-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff0000, #ffff00);
+            color: #000;
+            padding: 3px 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            animation: rotateBadge 3s infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes rotateBadge {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .tab-btn { padding: 5px 10px; font-size: 10px; }
+            .tab-content { padding: 10px; margin: 5px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <!-- Matrix Rain Background -->
+    <canvas id="matrix-bg"></canvas>
+    
+    <!-- Scanlines Effect -->
+    <div class="scanlines"></div>
+    
+    <!-- Audio Background -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://www.youtube.com/embed/uPohUx5uMIQ?autoplay=1&loop=1" type="audio/mpeg">
+    </audio>
+    <embed height="0" width="0"
+  src="https://www.youtube.com/embed/uPohUx5uMIQ?autoplay=1&loop=1" />
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-container">
+            <div class="umbrella-logo">
+                <div class="umbrella-segments">
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                    <div class="segment"></div>
+                </div>
+            </div>
+        </div>
+        <h1>Umbrella Corporation</h1>
+        <p class="tagline">Your elite, premium source for advanced intelligence and precision data solutions.</p>
+        <p class="glitch-text">Umbrella versus the meteors -- because keeping life running is the entire business.</p>
+        <p style="color: #b3b3b3; margin-top: 10px;">Private intelligence agency and community of investigators and engineers, active since 2012.</p>
+    </div>
+    
+    <!-- Tab Navigation -->
+    <div class="tab-nav">
+        <button class="tab-btn active" onclick="showTab('overview')">127.0.0.1</button>
+        <button class="tab-btn" onclick="showTab('definitions')">DATA CORE SYSTEMS</button>
+        <button class="tab-btn" onclick="showTab('services')">INFRA / MM SERVICES</button>
+        <button class="tab-btn" onclick="showTab('cloud')">UMBRELLA CLOUD</button>
+        <button class="tab-btn" onclick="showTab('fullformat')">UMBRELLA CLOUD FULL</button>
+        <button class="tab-btn" onclick="showTab('basicformat')">UMBRELLA CLOUD BASIC</button>
+        <button class="tab-btn" onclick="showTab('stored')">UMBRELLA CLOUD ARCHIVE</button>
+        <button class="tab-btn" onclick="showTab('contact')">HELLO</button>
+    </div>
+    
+    <!-- Tab Contents -->
+    <div id="overview" class="tab-content active">
+        <div class="section">
+            <h2>Welcome to the Future</h2>
+            <div class="terminal">
+                <p>Initializing Umbrella Systems...</p>
+                <p>Connection Established: TOR Network Active</p>
+                <p>Encryption: AES-256 Military Grade</p>
+                <p>Status: OPERATIONAL & ONLINE<span class="terminal-cursor"></span></p>
+            </div>
+            <div class="warning-box">
+                <h3>Engagement Basics</h3>
+                <p>Security choices rest solely with you; Umbrella does not encourage immoral or illegal activity.</p>
+                <p>We provide access and knowledge, and it is your responsibility to determine how those assets are applied.</p>
+                <p>Every first-time client receives one complimentary security assessment to surface immediate risks.</p>
+                <p>Our primary role is to expose your attack surface so you always know where you stand in the digital world.</p>
+            </div>
+			<div class="warning-box vision-box">
+                <h3>Umbrella Vision Snapshot</h3>
+                <p>Founded by Cyber-NND-Hydra in 2012, the collective exists to build healthier and smarter operational environments. Core infrastructure relies on RAID-Z3 storage, geo-replication across three continents, erasure-coded clusters, and a veteran gray-hat engineering team.</p>
+                
+                <div class="vision-group">
+                    <h4>Research Pillars</h4>
+                    <div class="vision-grid">
+                        <div class="vision-item">
+                            <h5>Biology &amp; Chemistry</h5>
+                            <ul class="vision-checklist">
+                                <li><span>CRISPR remediation</span><small>Gene editing pipelines that erase hereditary weaknesses.</small></li>
+                                <li><span>Augmentation labs</span><small>Personalized medicine, prosthetics, and body modification programs.</small></li>
+                                <li><span>Identity archiving</span><small>Neural snapshots and personality backups for continuity.</small></li>
+                            </ul>
+                        </div>
+                        <div class="vision-item">
+                            <h5>Weapons &amp; Defense</h5>
+                            <ul class="vision-checklist">
+                                <li><span>Energy platforms</span><small>Directed-energy research, laser arrays, and turret automation.</small></li>
+                                <li><span>Armor &amp; exosuits</span><small>D3O composites, nanobot weaves, and Iron-Man grade suits.</small></li>
+                                <li><span>Mobility superiority</span><small>Custom vehicles, extreme cooling, and aimbot-ready drone fleets.</small></li>
+                            </ul>
+                        </div>
+                        <div class="vision-item">
+                            <h5>Information Acquisition</h5>
+                            <ul class="vision-checklist">
+                                <li><span>Agency mesh</span><small>Liaisons across CIA, FBI, DIA, DEA, NSA, GCHQ, DSD, GCSB, CSE, MI6, BIA, and KGB data streams.</small></li>
+                                <li><span>Identity resets</span><small>Passport tracing, geolocation sweeps, and clean-slate provisioning.</small></li>
+                                <li><span>Memory labs</span><small>Restoration clinics for witnesses, assets, and trauma victims.</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="vision-group">
+                    <h4>Operations &amp; Services</h4>
+                    <div class="vision-grid">
+                        <div class="vision-item">
+                            <h5>Cyber Operations</h5>
+                            <ul class="vision-checklist">
+                                <li><span>AI ranges</span><small>Dedicated clusters for training, alignment, and stress tests.</small></li>
+                                <li><span>Offensive tooling</span><small>Custom FUD malware, crypters, binders, and engagement scripts.</small></li>
+                                <li><span>Hardening &amp; forensics</span><small>Pentesting corridors, firmware/OS lockdowns, and rapid credential recovery.</small></li>
+                            </ul>
+                        </div>
+                        <div class="vision-item">
+                            <h5>Business Acceleration</h5>
+                            <ul class="vision-checklist">
+                                <li><span>Funnel playbooks</span><small>Affiliate/content engines tuned for rapid conversion.</small></li>
+                                <li><span>Market intelligence</span><small>Equities, forex, SEO, and keyword telemetry in one dashboard.</small></li>
+                                <li><span>Executive coaching</span><small>Corporate strategy, tax optimization, and licensed portfolio desks.</small></li>
+                            </ul>
+                        </div>
+                        <div class="vision-item">
+                            <h5>Security Programs</h5>
+                            <ul class="vision-checklist">
+                                <li><span>SOC &amp; IDS builds</span><small>Managed detection layers tuned for regulated industries.</small></li>
+                                <li><span>UEBA intelligence</span><small>Behavior analytics, insider-threat sweeps, and live threat dashboards.</small></li>
+                                <li><span>Response pods</span><small>Incident containment, code reviews, and disaster simulation.</small></li>
+                            </ul>
+                        </div>
+                        <div class="vision-item">
+                            <h5>Signal &amp; Influence</h5>
+                            <ul class="vision-checklist">
+                                <li><span>Audience shaping</span><small>Social boosting or takedowns, targeted bans, and traffic rerouting.</small></li>
+                                <li><span>Asset sourcing</span><small>Premium gaming accounts, licensing pipelines, and on-ground teams.</small></li>
+                                <li><span>Infrastructure</span><small>Dedicated hosting, proxy fleets, privacy comms, invention labs, and offshore rails.</small></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <h4>Engagement Rule</h4>
+                <p>Briefs that intend direct or indirect physical, mental, or economic harm are rejected. Every accepted mission must uplift a specific individual, organization, or community without collateral damage.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="definitions" class="tab-content">
+        <div class="section">
+            <h2>Data Classification System</h2>
+            <div class="price-card">
+                <h3>What is LIVE/Fresh?</h3>
+                <p>Our LIVE/Fresh tier covers intelligence captured between one hour and twenty-four hours before it reaches you.</p>
+            </div>
+            <div class="price-card">
+                <h3>What is NonLive?</h3>
+                <p>NonLive material is anything older than twenty-four hours; the archive runs uninterrupted back to 2012.</p>
+            </div>
+            <div class="price-card">
+                <h3>What is Basic Format?</h3>
+                <p>Basic Format equals login sets taken from devices: email, username, phone, and password combinations packaged for copy-paste use.</p>
+                <p>It is a clean, simple option for clients who only need straightforward account access.</p>
+            </div>
+            <div class="price-card">
+                <h3>What is Full Format?</h3>
+                <p>Full Format contains the entire host footprint: browser history, cookies, tokens, clipboard artifacts, identity records, device data, hardware specs, software inventory, security tools, financial trails, biometrics, travel information, voting data, SSNs, and more.</p>
+                <p>It is built for advanced operators who can handle layered intelligence, target specific demographics, or need forensic-grade evidence.</p>
+                <p>Law enforcement, marketing teams, threat-prevention units, and researchers rely on this tier when they must map user behavior, track hardware fingerprints, or preserve digital evidence.</p>
+            </div>
+			 <div class="price-card">
+                <h3>What is UMBRELLA CLOUD?</h3>
+                <p>UMBRELLA CLOUD bundles company data, website databases, classified material, patents, trade secrets, customer and employee records, and timestamped telemetry.</p>
+				 <p>This VIP tier is suited for intelligence agencies, data brokers, and high-end researchers who require both breadth and freshness.</p>
+				 <p>[Live and NonLive datasets in both Basic and Full formats are included inside this tier.]</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="services" class="tab-content">
+        <div class="section">
+            <h2>Infrastructure Services For AI Research</h2>
+            <div class="price-card">
+                <h3>Low Packet</h3>
+                <p>8 x NVIDIA RTX 5090 32 GB GPUs (256 GB VRAM total) + 516 GB RAM + 128 CPU threads.</p>
+                <p class="price-tag">3 GBP per hour or 75 GBP per day.</p>
+            </div>
+            <div class="price-card">
+                <h3>Medium Packet</h3>
+                <p>8 x NVIDIA H200 141 GB GPUs (1,128 GB VRAM total) + 2,064 GB RAM + 192 CPU threads.</p>
+                <p class="price-tag">20 GBP per hour or 499 GBP per day.</p>
+            </div>
+            <div class="price-card">
+                <h3>High Packet</h3>
+                <p>8 x NVIDIA B200 192 GB GPUs (1,536 GB VRAM total) + 3,096 GB RAM + 128 CPU threads.</p>
+                <p class="price-tag">40 GBP per hour or 999 GBP per day.</p>
+            </div>
+            <div class="warning-box">
+                <p>*Internet bandwidth (3 GBP per TB) is billed separately.</p>
+                <p>*Disk space (6 GBP per TB) is billed separately.</p>
+            </div>
+            <div class="price-card">
+                <h3>Umbrella Verified MiddleMan Services</h3>
+                <p class="price-tag">Only a 3.6% fee + 36 GBP flat.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="cloud" class="tab-content">
+        <div class="section">
+            <h2>UMBRELLA CLOUD Access (VIP/Premium Tier):</h2>
+            <p style="color: #00ff00; font-size: 1.2em;">[36,000+ websites - 5,000+ companies - ~400 TB of curated data - Operating since 2012]</p>
+			 <p style="color: #00ff00; font-size: 1.2em;">[Includes every Live and NonLive feed in both Basic and Full formats]</p>
+            <div class="price-card">
+                <h3>Available:</h3>
+                <ul style="list-style: none; padding-left: 20px;">
+				 <li>Company intelligence and full website databases.</li>
+				 <li>300-750 billion intercepted logins (Basic Format).</li>
+				  <li>33,000,000+ ransomware or encrypted systems/PCs/servers (Full Format).</li>
+                    <li>Business-competition advantage reports.</li>
+                    <li>Classified and proprietary documentation.</li>
+                    <li>Specialized targeted, high-end intelligence packages.</li>
+					<li>Elite educational and training material.</li>
+                    <li>Patents and trade secrets.</li>
+                    <li>Customer and employee datasets.</li>
+                    <li>Forensic timestamps and telemetry.</li>
+					<li>Contact us for the current roster of companies and websites.</li>
+                </ul>
+            </div>
+            <div class="price-card">
+                <h3>Pricing Tiers/Levels:</h3>
+                <p>1 h access = <span class="price-tag">250 GBP</span></p>
+				 <p>3 h access = <span class="price-tag">499 GBP</span> [save 251 GBP]</p>
+                <p>6 h access = <span class="price-tag">999 GBP</span></p>
+                <p>12 h access = <span class="price-tag">1,947 GBP</span> [save 51 GBP]</p>
+                <p>24 h access = <span class="price-tag">3,894 GBP</span> <span class="special-badge">Special-day price: 2,000 GBP</span></p>
+                <p>7 days access = <span class="price-tag">13,629 GBP</span> (~1,947 GBP per day)</p>
+                <p>14 days access = <span class="price-tag">25,000 GBP</span> (~1,785 GBP per day) [12,500 GBP with Partner_SYS]</p>
+                <p>28 days access = <span class="price-tag">42,000 GBP</span> (~1,500 GBP per day) [21,000 GBP with Partner_SYS]</p>
+                <p>90 days access = <span class="price-tag">90,000 GBP</span> (~1,000 GBP per day) [45,000 GBP with Partner_SYS] <span class="special-badge">Renewals lock in at 75k (~15k savings)</span></p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="fullformat" class="tab-content">
+        <div class="section">
+            <h2>Full Format Live [Under 24h old] [Ransomware-Captured Systems]</h2>
+            <p class="glitch-text" style="font-size: 1.3em; color: #00ff00;">[33+ million systems processed since 2018]</p>
+            <p>Our custom private zero-day exploits and fully undetected implants infiltrate systems, extract their data, and route it into Umbrella command servers.</p>
+            <div class="warning-box">
+                <p>Full Format delivers a different tier, type, and size of intelligence; combine it with Basic Format when you need layered coverage.</p>
+            </div>
+            <div class="price-card">
+                <h3>90 Days Access Package</h3>
+                <p><span class="price-tag">4,999 GBP</span> on normal days [up to 500k systems | ~0.01 GBP per PC].</p>
+                <p><span class="price-tag">3,450 GBP</span> on special days [up to 500k systems | ~0.0069 GBP per PC].</p>
+					<p><span class="price-tag">2,999 GBP</span> with Partner_SYS.</p>
+                <p><span class="price-tag">2,499 GBP</span> on renewals [~0.005 GBP per PC].</p>
+            </div>
+            <div class="price-card">
+                <h3>30 Days Access Package</h3>
+                <p><span class="price-tag">3,333 GBP</span> on normal days [up to 166k systems | ~0.02 GBP per PC].</p>
+                <p><span class="price-tag">2,299 GBP</span> on special days [up to 166,666 systems | ~0.0138 GBP per PC].</p>
+					<p><span class="price-tag">1,500 GBP</span> with Partner_SYS.</p>
+                <p><span class="price-tag">999 GBP</span> on renewals [~0.01 GBP per PC].</p>
+            </div>
+            <div class="price-card">
+                <h3>7 Days Access Package</h3>
+                <p><span class="price-tag">2,499 GBP</span> on normal days [up to 41k systems | ~0.06 GBP per PC].</p>
+                <p><span class="price-tag">1,666 GBP</span> on special days [up to 41,666 systems | ~0.04 GBP per PC].</p>
+				<p><span class="price-tag">999 GBP</span> with Partner_SYS.</p>
+                <p><span class="price-tag">750 GBP</span> on renewals [~0.02 GBP per PC].</p>
+            </div>
+			<div class="price-card">
+                <h3>24 Hours Access Package</h3>
+                <p><span class="price-tag">360 GBP</span> on normal days [avg. 6k systems | ~0.06 GBP per PC].</p>
+                <p><span class="price-tag">240 GBP</span> on special days [1,000-6,400 systems | ~0.04 GBP per PC].</p>
+				<p><span class="price-tag">48 GBP</span> with Partner_SYS.</p>
+            </div>
+			 <div class="section">
+                <h2>Special Days Prices & Discounts</h2>
+                <div class="warning-box">
+                    <p>1.JAN (New year) | 14.FEB (Valentine's Day) | 17.MAR (St. Patrick's Day)</p>
+                    <p>20.APR (Easter) | 11.MAY (Mother's Day) | 15.JUNE (Father's Day)</p>
+                    <p>4.JULY (Independence Day) | 1.AUG (WWW Day) | 1.SEP (Labor Day)</p>
+                    <p>31.OCT (Halloween) | 28.NOV (Black Friday) | 1.DEC (Cyber Monday) | 31.DEC (New Year's Eve)</p>
+                    <p style="color: #ff0000; margin-top: 10px;">Discount is active and available only on exact promotion day according to CET Timezone.</p>
+                </div>
+                <div class="price-card">
+                    <h3>Partner System Activation:</h3>
+                    <p>Bring another buyer who purchases the same package at the same time; both seats unlock the Partner_SYS discount.</p>
+                </div>
+				 <div class="price-card">
+                    <h3>Trust Rewards:</h3>
+                    <p>Renew your existing package and loyalty discounts apply automatically.</p>
+                </div>
+        </div>
+    </div>
+	</div>
+    
+    <div id="basicformat" class="tab-content">
+        <div class="section">
+            <h2>Basic Format Live [Under 24h old] [Intercepted Logins]</h2>
+            <p class="glitch-text" style="font-size: 1.3em; color: #00ff00;">[300+ billion logins intercepted since 2012]</p>
+            <div class="price-card">
+                <h3>90 Days Access Package</h3>
+                <p><span class="price-tag">4,500 GBP</span> on normal days [up to 12M+ logins].</p>
+                <p><span class="price-tag">2,999 GBP</span> on special days [up to 12M+ logins].</p>
+					<p><span class="price-tag">2,250 GBP</span> with Partner_SYS.</p>
+				<p><span class="price-tag">1,499 GBP</span> on renewals.</p>
+            </div>
+            <div class="price-card">
+                <h3>30 Days Access Package</h3>
+                <p><span class="price-tag">3,000 GBP</span> on normal days [up to 4M+ logins].</p>
+                <p><span class="price-tag">1,999 GBP</span> on special days [up to 4M+ logins].</p>
+					<p><span class="price-tag">999 GBP</span> with Partner_SYS.</p>
+				<p><span class="price-tag">750 GBP</span> on renewals.</p>
+            </div>
+            <div class="price-card">
+                <h3>7 Days Access Package</h3>
+                <p><span class="price-tag">2,000 GBP</span> on normal days [up to 1M+ logins].</p>
+                <p><span class="price-tag">1,499 GBP</span> on special days [up to 1M+ logins].</p>
+					<p><span class="price-tag">750 GBP</span> with Partner_SYS.</p>
+				<p><span class="price-tag">499 GBP</span> on renewals.</p>
+            </div>
+			   <div class="price-card">
+                <h3>24 Hours Access Package</h3>
+                <p><span class="price-tag">310 GBP</span> on normal days [up to 140k logins].</p>
+                <p><span class="price-tag">199 GBP</span> on special days [up to 140k logins].</p>
+					<p><span class="price-tag">60 GBP</span> with Partner_SYS.</p>
+            </div>
+           <div class="section">
+                <h2>Special Days Prices & Discounts</h2>
+                <div class="warning-box">
+                    <p>1.JAN (New year) | 14.FEB (Valentine's Day) | 17.MAR (St. Patrick's Day)</p>
+                    <p>20.APR (Easter) | 11.MAY (Mother's Day) | 15.JUNE (Father's Day)</p>
+                    <p>4.JULY (Independence Day) | 1.AUG (WWW Day) | 1.SEP (Labor Day)</p>
+                    <p>31.OCT (Halloween) | 28.NOV (Black Friday) | 1.DEC (Cyber Monday) | 31.DEC (New Year's Eve)</p>
+                    <p style="color: #ff0000; margin-top: 10px;">Discount is active and available only on exact promotion day according to CET Timezone.</p>
+                </div>
+                <div class="price-card">
+                    <h3>Partner System Activation:</h3>
+                    <p>Bring another buyer purchasing the same package at the same moment; both of you unlock the Partner_SYS rate.</p>
+                </div>
+				 <div class="price-card">
+                    <h3>Trust Rewards:</h3>
+                    <p>Renew your existing package and loyalty rewards become active.</p>
+                </div>
+        </div>
+        </div>
+    </div>
+    
+    <div id="stored" class="tab-content">
+        <div class="section">
+            <h2>UMBRELLA CLOUD ARCHIVE Stored/Past Data [25 Hours or Older]</h2>
+            <div class="warning-box">
+                <h3>What is "Normal Websites"?</h3>
+                <p>"Normal websites" include: adult and dating platforms, stores, game studios, casinos and betting services, hosting providers, crypto hubs, antivirus vendors, forums, hotels and travel portals, health and fitness platforms, food delivery, automotive, enterprise, marketing, design, forex, and ISPs.</p>
+            </div>
+			 <div class="warning-box">
+                <h3>Looking into something older?</h3>
+                <p>Need to solve a historical puzzle or audit what exists about you or someone else? NonLive data fills the gaps.</p>
+            </div>
+            <div class="price-card">
+                <h3>Targeted/Custom Requests:</h3>
+                <p><span class="price-tag">1,499 GBP</span> per targeted email/username/phone request + 249 GBP per password recovered.</p>
+                <p>Targeted website logins (normal sites): flat <span class="price-tag">499 GBP</span> per website + 100 GBP per 1,000 logins (~0.1 GBP per login).</p>
+                <p>Targeted website logins (enterprise, social media, email providers, banks): flat <span class="price-tag">999 GBP</span> + 500 GBP per 1,000 logins (~0.5 GBP per login).</p>
+                <p>Targeted website logins (police or government): flat <span class="price-tag">1,947 GBP</span> per website + 669 GBP per result, or 3,669 GBP per result when the pool is under 100 records.</p>
+            </div>
+            <div class="price-card">
+                <h3>Bulk Data:</h3>
+                <p>Bulk access to the NonLive Basic Format archive (downloads enabled): <span class="price-tag">750 GBP</span> per 24 hours.</p>
+                <p style="color: #00ff00;">[~300-750 billion logins available]</p>
+                <p>Bulk access to the NonLive Full Format archive (downloads enabled): <span class="price-tag">1,500 GBP</span> per 24 hours.</p>
+                <p style="color: #00ff00;">[Up to 33 million systems available]</p>
+            </div>
+            <div class="price-card">
+                <h3>Demo Options: [Only for 1st time Buyers]</h3>
+				<p><span class="price-tag">5 GBP</span> - 50 logins from your selected website (demo).</p>
+                <p><span class="price-tag">10 GBP</span> per random system (demo).</p>
+                <p><span class="price-tag">20 GBP</span> per system filtered by selected country (demo).</p>
+                <p><span class="price-tag">30 GBP</span> per system filtered by time period/date (demo).</p>
+                <p><span class="price-tag">36 GBP</span> per system filtered by country + month + year (demo).</p>
+                <p>Exact system/PC/IP/HWID selection: <span class="price-tag">6,500 GBP</span> if the system is found + 499 GBP upfront to start the request.</p>
+				 <p><span class="price-tag">Free</span> - 1-hour Cloud Enterprise VIP tour for ID + EIN verified first-time buyers.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="contact" class="tab-content">
+        <div class="section">
+            <h2>Secure Contact & Terms</h2>
+            <div class="terminal">
+                <p>Initiate anonymous, private contact over the onion network (Whonix OS, GrapheneOS, or LineageOS) using BriarProject.org, Cwtch.im, or GetSession.org.</p>
+                <p><strong>Step 1:</strong> Notify us through a Telegram secret chat at <span style="color:#ff0000;">@UmbrellaSecurity</span> so we can exchange session details.</p>
+                <p><strong>Step 2:</strong> Send us your contact handle only inside that secret chat; standard Telegram conversations related to orders are ignored.</p>
+                <p style="color: #ff0000; font-size: 0.9em; word-break: break-all;">Request the current Briar, Cwtch, and Session identifiers during the Telegram secret chat.</p>
+                <p style="color: #ff0000; font-size: 0.9em; word-break: break-all;">Acquire Telegram safely by purchasing a +888 number with Monero on Tor and routing your client through the onion network.</p>
+            </div>
+            <div class="warning-box">
+                <h3>STRICT REQUIREMENTS:</h3>
+                <p>Use Whonix OS (or an equivalent hardened environment) for communications whenever possible.</p>
+                <p>Clients must be 21+ years old as defined by Mississippi law.</p>
+                <p>Payments are accepted only via a self-hosted Monero (XMR) node.</p>
+            </div>
+            <div class="warning-box">
+                <h3>IMPORTANT DISCLAIMERS:</h3>
+                <p>Your math, marketing, and margins are your responsibility; plan accordingly.</p>
+                <p>Original owners can change passwords or revoke access at will. We cannot control their decisions.</p>
+                <p>Results depend on your sales skills, creativity, and number of sourced logins. Research thoroughly before investing.</p>
+                <p>We do not answer questions that mainstream AI, search engines, or public forums already solve. If the offer is unclear, this marketplace is not for you.</p>
+                <p>Targeted/custom requests may require 24-100 hours. Patience is part of the process.</p>
+                <p>If someone changes credentials after capture, the dataset remains historically accurate; recapturing it is outside our guarantee.</p>
+                <p>Data streams are shared among vetted clients, so rotations occur. To keep the field fair, we limit the number of monthly seats.</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Audio Control -->
+    <div class="audio-control">
+        <button class="audio-btn" onclick="toggleMusic()">MUSIC</button>
+    </div>
+    
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+        
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrix-bg');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const matrix = "UMBRELLACORPORATION01";
+        const matrixArray = matrix.split("");
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        
+        for(let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = '#ff0000';
+            ctx.font = fontSize + 'px monospace';
+            
+            for(let i = 0; i < drops.length; i++) {
+                const text = matrixArray[Math.floor(Math.random() * matrixArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        // Tab Functionality
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Music Toggle
+        let musicPlaying = false;
+        function toggleMusic() {
+            const music = document.getElementById('bgMusic');
+            const btn = document.querySelector('.audio-btn');
+            
+            if(!musicPlaying) {
+                music.play().catch(e => {
+                    console.log("Auto-play prevented, user interaction required");
+                });
+                btn.textContent = 'MUTE';
+                musicPlaying = true;
+            } else {
+                music.pause();
+                btn.textContent = 'MUSIC ON';
+                musicPlaying = false;
+            }
+        }
+        
+        // Auto-start music on first user interaction
+        document.addEventListener('click', function initMusic() {
+            const music = document.getElementById('bgMusic');
+            music.volume = 0.3;
+            music.play().catch(e => {
+                console.log("Music autoplay blocked");
+            });
+            document.removeEventListener('click', initMusic);
+            musicPlaying = true;
+            document.querySelector('.audio-btn').textContent = 'MUTE';
+        }, { once: true });
+        
+        // Window Resize Handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Add glitch effect on hover
+        document.querySelectorAll('.price-card, .warning-box').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                this.style.animation = 'glitch 0.3s infinite';
+            });
+            element.addEventListener('mouseleave', function() {
+                this.style.animation = '';
+            });
+        });
+        
+        // Terminal typing effect
+        function typeWriter(element, text, i = 0) {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(element, text, i + 1), 50);
+            }
+        }
+        
+        // Random glitch effect
+        setInterval(() => {
+            const elements = document.querySelectorAll('h1, h2');
+            const randomElement = elements[Math.floor(Math.random() * elements.length)];
+            randomElement.style.animation = 'glitch 0.2s';
+            setTimeout(() => {
+                randomElement.style.animation = '';
+            }, 200);
+        }, 5000);
+    </script>
+</body>
+</html>

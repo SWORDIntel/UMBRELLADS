@@ -1,0 +1,12 @@
+#!/bin/bash
+# Umbrella Ads quick info
+
+cat <<INFO
+Umbrella Ads Workspace
+----------------------
+1. Umbrella 18.NOV2025.html - active, human-readable ad.
+2. Umbrella_18.NOV2025.decoded.html - reference decode of original obfuscated file.
+3. Umbrella Corporation By_NND.html - legacy untouched copy for comparison.
+
+Edit the primary file only; keep reference files intact.
+INFO

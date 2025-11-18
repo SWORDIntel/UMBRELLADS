@@ -8,7 +8,6 @@ REPO_NAME="UMBRELLA-ADS"
 GITHUB_USER="John"
 USER_EMAIL="intel@swordintelligence.airforce"
 REMOTE_PROTO="ssh"
-AUTO_CREATE=false
 
 usage() {
     cat <<USAGE
@@ -20,7 +19,6 @@ Options:
   --user <name>     GitHub username (default: John)
   --email <email>   Commit author email (default: intel@swordintelligence.airforce)
   --https           Use HTTPS remote instead of SSH
-  --create          Attempt to create the repo via GitHub CLI (gh)
   -h, --help        Show this message
 
 Example:
@@ -48,10 +46,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --https)
             REMOTE_PROTO="https"
-            shift
-            ;;
-        --create)
-            AUTO_CREATE=true
             shift
             ;;
         -h|--help)
@@ -86,17 +80,31 @@ fi
 git config user.name "$GITHUB_USER"
 git config user.email "$USER_EMAIL"
 
-if $AUTO_CREATE; then
-    if command -v gh >/dev/null 2>&1; then
-        if ! gh repo view "${GITHUB_USER}/${REPO_NAME}" >/dev/null 2>&1; then
-            echo "Creating private repo ${GITHUB_USER}/${REPO_NAME} via gh..."
-            gh repo create "${GITHUB_USER}/${REPO_NAME}" --private --source="$ROOT_DIR" --remote=origin --push >/dev/null
-            exit 0
-        else
-            echo "Repo ${GITHUB_USER}/${REPO_NAME} already exists on GitHub."
-        fi
+gh_available=false
+gh_authed=false
+
+if command -v gh >/dev/null 2>&1; then
+    gh_available=true
+    if gh auth status >/dev/null 2>&1; then
+        gh_authed=true
+    fi
+fi
+
+if $gh_available && $gh_authed; then
+    if ! gh repo view "${GITHUB_USER}/${REPO_NAME}" >/dev/null 2>&1; then
+        echo "Creating private repo ${GITHUB_USER}/${REPO_NAME} via gh..."
+        gh repo create "${GITHUB_USER}/${REPO_NAME}" --private --description "Umbrella ads archive" >/dev/null
     else
-        echo "GitHub CLI (gh) not found; skipping auto-create."
+        echo "Repo ${GITHUB_USER}/${REPO_NAME} already exists on GitHub."
+    fi
+else
+    if ! $gh_available; then
+        echo "GitHub CLI (gh) not installed; skipping remote creation."
+    elif ! $gh_authed; then
+        cat <<WARN
+GitHub CLI not authenticated. Run 'gh auth login' or set GH_TOKEN,
+or ensure the remote repository ${GITHUB_USER}/${REPO_NAME} exists before continuing.
+WARN
     fi
 fi
 

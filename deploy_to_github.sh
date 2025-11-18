@@ -7,7 +7,7 @@ ROOT_DIR="$SCRIPT_DIR"
 REPO_NAME="UMBRELLA-ADS"
 GITHUB_USER="John"
 USER_EMAIL="intel@swordintelligence.airforce"
-REMOTE_PROTO="ssh"
+REMOTE_PROTO="https"
 
 usage() {
     cat <<USAGE
@@ -60,9 +60,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-REMOTE_URL="git@github.com:${GITHUB_USER}/${REPO_NAME}.git"
 if [[ "$REMOTE_PROTO" == "https" ]]; then
     REMOTE_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
+else
+    REMOTE_URL="git@github.com:${GITHUB_USER}/${REPO_NAME}.git"
 fi
 
 echo "Working directory : $ROOT_DIR"
@@ -93,7 +94,14 @@ fi
 if $gh_available && $gh_authed; then
     if ! gh repo view "${GITHUB_USER}/${REPO_NAME}" >/dev/null 2>&1; then
         echo "Creating private repo ${GITHUB_USER}/${REPO_NAME} via gh..."
-        gh repo create "${GITHUB_USER}/${REPO_NAME}" --private --description "Umbrella ads archive" >/dev/null
+        if gh repo create "${GITHUB_USER}/${REPO_NAME}" --private --description "Umbrella ads archive" >/dev/null 2>&1; then
+            echo "Repository created."
+        else
+            cat <<WARN
+Unable to create ${GITHUB_USER}/${REPO_NAME} via gh. Ensure you are authenticated
+as ${GITHUB_USER} or pre-create the repository manually.
+WARN
+        fi
     else
         echo "Repo ${GITHUB_USER}/${REPO_NAME} already exists on GitHub."
     fi

@@ -1,5 +1,7 @@
 # UMBRELLA-ADS
 
+_a.k.a. UMBRELLADS_
+
 Umbrella Ads Archive is a single-page experience that showcases the 18.NOV2025 marketing drop for Umbrella Corporation. The directory includes a curated, human-readable HTML file plus legacy and decoded references so the original obfuscation can be studied without touching production assets.
 
 ## Repository Layout
